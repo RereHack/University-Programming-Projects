@@ -1,0 +1,305 @@
+import java.util.Scanner;
+public class Programming_Project {
+    public static void main(String[] args) {
+       
+        Scanner input=new Scanner(System.in);
+        
+     System.out.println("Please enter the following profile information: ");
+     
+     System.out.print("The name: ");
+     String name=input.next();
+     
+     System.out.print("The gender ('m' for men & 'w' for Women): ");
+     char gender = input.next().charAt(0);
+     while(gender != 'm' && gender != 'w')
+     {
+         System.out.print("Please enter a right value ('m' for Men & 'w' for women): ");
+                     gender = input.next().charAt(0);
+     }//while gender
+     
+     System.out.print("The age (years): ");
+     int age=input.nextInt();
+     while (age<=0)
+     {
+     System.out.print("Please enter a right value (your age in years): ");
+     age = input.nextInt();
+     }//while age
+     
+     System.out.print("The weight(kg): ");
+     double weight=input.nextDouble();
+     while (weight<=0)
+     {
+     System.out.print("Please enter a right value (your weight in kilograms): ");
+     weight = input.nextDouble();
+     }//while weight
+     
+     System.out.print("The height(cm): ");
+     double height=input.nextDouble();
+     while(height<=0)
+     {
+     System.out.print("Please enter a right value (your height in centimeter): ");
+     height=input.nextDouble();
+     }//while height
+     
+        int operationNumber=0;
+       do{
+           System.out.println("*****************************");
+           System.out.println("choose one of the following: ");
+           System.out.println("*****************************");
+           System.out.println("1- Check blood pressure ");
+           System.out.println("2- Check blood suger: ");
+           System.out.println("3- Check average blood suger: ");
+           System.out.println("4- BMI calculator: ");
+           System.out.println("5- Calories calculator: ");
+           System.out.println("6- Exit value ");
+           System.out.print("Enter your menu choice: ");
+
+ operationNumber=input.nextInt();
+ 
+        switch(operationNumber)
+        {
+            case 1:
+                checkBloodPressure(); 
+                break;
+            case 2:
+                checkBloodSuger(); 
+                break;
+            case 3:
+                checkAverageBloodSuger(); 
+                break;
+            case 4:
+                bmiCalculator(weight,height); 
+                break;
+            case 5:
+                caloriesCalculator(gender,weight,height,age); 
+                break;
+            case 6:
+                System.out.println("***************************");
+                System.out.println("-We hope you be in good health , Goodbye.");
+                break;
+            default:
+                System.out.println("Wrong Choice (Choice between 1-5 for operation or 6 to exit only): ");
+        }//switch
+        }while(operationNumber != 6);
+       
+    }//main method
+    public static void checkBloodPressure(){
+        Scanner input=new Scanner(System.in);
+        
+        System.out.print("Enter the blood pressure systolic: ");
+        double systolic=input.nextInt();
+        while(systolic <= 0 || systolic > 159 )
+        {
+        System.out.print("Please enter a right value of systolic: ");
+        systolic=input.nextDouble();
+        }//while systolic
+        
+        System.out.print("Enter the blood pressure diastolic: ");
+        double diastolic=input.nextInt();
+        while(diastolic <= 0 || diastolic > 99)
+        {
+        System.out.print("Please enter a right value of diastolic: ");
+        diastolic = input.nextDouble();
+        }// while diastolic
+        
+        if
+                (systolic <80 || diastolic<60)
+        {System.out.println("-Low blood pressure-");}
+        
+        else if
+                (systolic <120 && diastolic <80)
+        {System.out.println("-Perfect blood pressure-");}
+        
+        else if
+                (systolic >=120 && systolic <=129 ) {
+          if
+                  (diastolic >=80 && diastolic <=84)
+          System.out.println("-Normal-"); }
+        
+           else if
+                   (systolic>=130 && systolic<=139 || diastolic>=85 && diastolic<=89)
+           {System.out.println("-Prehypertension-");}
+           
+             else if
+                     (systolic>=140 && systolic<=159 || diastolic>=90 && diastolic<=99)
+             {System.out.println("-High Blood Pressure (hypertension Stage 1)-");}
+        
+                 return;
+       }//checkBloodPressure
+    
+    public static void checkBloodSuger(){
+        Scanner input=new Scanner(System.in);
+        
+        System.out.println("choose your state: \n 1- Fasting \n 2- 2hours after a meal ");
+        int state=input.nextInt();
+        while (state != 1 && state != 2)
+        {
+        System.out.print("Please enter a right value (1- for fasting or 2- 2 hours after a meal): ");
+        state = input.nextInt();
+        }//while state
+        
+         System.out.println("Enter the reading value of the blood suger: ");
+        int value=input.nextInt();
+        
+        while (state == 1 && value < 70)
+        {
+            System.out.print("Please enter a right value of blood sugar: ");
+            value = input.nextInt();
+        }//while state1
+        switch(state){
+            case 1:
+                if
+                (value >=70 && value <=100  )
+                {System.out.println("-Normal-");}
+                 else if
+                (value >=101 && value <=125)
+                {System.out.println("-Pre-diabetes-");}
+                else
+                {System.out.println("-Diabetes-");}
+                break;
+                
+            case 2:
+                if
+                (value <140)
+                {System.out.println("-Normal-");}
+                
+                else if
+                (value >=140 && value <=200)
+                {System.out.println("-Pre-diabetes-");}
+                
+                else if
+                (value >200)
+                {System.out.println("-Diabetes-");}
+        }//switch
+        return;
+    }//checkBloodSuger
+    
+   public static void checkAverageBloodSuger(){
+       Scanner input =new Scanner(System.in);
+       
+       double  bloodSugar[]= new double[5];
+       double average=0 , sum=0;
+       
+       System.out.println("choose your state: \n 1- Fasting \n 2- 2hours after a meal ");
+       int state=input.nextInt();
+       while (state != 1 && state != 2)
+        {
+        System.out.print("Please enter a right value (1- for fasting or 2- 2 hours after a meal): ");
+        state = input.nextInt();
+        }//while state
+        
+        System.out.println("Enter five recent values for your blood suger reading: ");
+        for(int i=0; i<bloodSugar.length;i++)
+        {
+            bloodSugar[i]=input.nextDouble();
+            while (state == 1 && bloodSugar[i] < 70)
+            {
+              System.out.print("Please enter a right value of blood sugar: ");
+              bloodSugar[i]= input.nextDouble();
+            }
+        sum=sum+bloodSugar[i];
+        }//for 
+         average=sum/5;
+       System.out.println("-The average is: " + average + "-");
+         switch(state){
+            case 1:
+                if
+                (average >=70 && average <=100  )
+                {System.out.println("-Normal-");}
+                
+                 else if
+                (average >=101 && average <=125)
+                 {System.out.println("-Pre-diabetes-");}
+                 
+                 else if
+                ( average>126 )
+                {System.out.println("-Diabetes-");}
+                break;
+                
+            case 2:
+                if
+                (average <140)
+                {System.out.println("-Normal-");}
+                else if
+                (average >=140 && average <=200)
+                {System.out.println("-Pre-diabetes-");}
+                else if
+                (average >200)
+                {System.out.println("-Diabetes-");}
+         }//switch
+         
+       return;
+   }//checkAverageBloodSuger 
+   
+    public static void bmiCalculator(double weight , double height){
+      
+        double height2=height/100;
+       double BMI = (weight / (Math.pow(height2, 2)));
+       if
+       (BMI <18.5)
+       {System.out.println("-Underweight-");}
+       else if
+       (BMI >=18.5 && BMI < 25.0)
+       {System.out.println("-Normal-");}
+       else if
+       (BMI >=25.0 && BMI < 30.0)
+       {System.out.println("-Overweight-");}
+       else if
+       (BMI >=30.0)
+       {System.out.println("-Obese-");}
+       
+       return;
+   }//bmiCalculater
+  
+  public static void caloriesCalculator (char gender,double weight,double height,int age){
+     Scanner input = new Scanner (System.in);
+     
+       System.out.println("Choose your level of activity: ");
+          System.out.println("1-little or no exercise \n 2-active(exercise 3-5 days/week) \n "
+                  + "3-(hard exercise 6-7 days/week)");
+           int ActivityLevel=input.nextInt();
+        while(ActivityLevel < 1 && ActivityLevel > 3)
+        {
+            System.out.print("Please enter a right value: ");
+            ActivityLevel = input.nextInt();
+        }//while activity level
+        
+       if (gender =='w'  ){
+           double BMRw = 655.1 + (9.563*weight) + (1.850*height) - (4.676*age);
+ switch(ActivityLevel)
+        {
+          case 1:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRw*1.2)+ "-");
+         break;
+         
+          case 2:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRw*1.55)+ "-");
+         break;
+         
+          case 3:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRw*1.9)+ "-");
+         break;
+        }//switch
+       }//if
+       else {
+         double  BMRm = 66.47 + (13.75*weight) + (5.003*height) - (6.755*age);
+      switch(ActivityLevel)
+        {
+          case 1:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRm*1.2)+ "-");
+          break;
+          
+          case 2:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRm*1.55)+ "-");
+         break;
+         
+          case 3:
+         System.out.println("-The number of calories you need to consume each day: " +(BMRm*1.9)+ "-");
+         break;
+      }//switch
+      }//else
+       
+       return;
+  }//caloriesCalculator
+  
+}//class
