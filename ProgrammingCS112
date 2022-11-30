@@ -1,0 +1,1198 @@
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
+import javafx.scene.Group;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
+
+public class Last extends Application {
+    
+    @Override
+    public void start(Stage primaryStage)throws Exception {
+        
+        User admin = new User();
+        admin.setUserType("Admin");
+        admin.setUsername("admin");
+        admin.setPassword("1234");
+        User customer = new User();
+        customer.setUserType("Customer");
+        customer.setUsername("customer");
+        customer.setPassword("0000");
+        Item electronicsItem = new Electronics();
+        Item clothesItem = new Clothes();
+        
+        BorderPane Bpane = new BorderPane ();
+        Bpane.setPadding(new Insets(25, 25, 25, 25));
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.TOP_LEFT);
+        grid.setHgap(10);
+        grid.setVgap(1);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        Label scenetitle = new Label("E-Store Managment System (EMS)");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD,20));
+       scenetitle.setTextFill(Color.BLUE);
+       Bpane.setTop(scenetitle);
+
+        Label userName = new Label("User Name:");
+        grid.add(userName, 0, 1);
+
+        TextField userTextField = new TextField();
+         userTextField.setPrefWidth(20);
+         userTextField.setPrefColumnCount(3);
+        grid.add(userTextField, 1, 1);
+
+        Label pw = new Label("Password:");
+        grid.add(pw, 0, 2);
+
+        PasswordField pwBox = new PasswordField();
+        grid.add(pwBox, 1, 2);
+
+        Button btn = new Button("Login");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(btn);
+        grid.add(hbBtn, 0, 3);
+        Bpane.setLeft(grid);
+        // image pane 
+        /*Image image = new Image ("last/SHOP.jpeg") ;
+        ImageView imageview = new ImageView(image);
+        imageview.setFitHeight(200);
+        imageview.setFitWidth(200);
+        Bpane.setRight(imageview);
+        */
+
+        btn.setOnAction(ex->{
+           if(userTextField.getText().equals(admin.getUsername())&&
+          pwBox.getText().equals(admin.getPassword())){
+            electronicsItem.showItems();
+            clothesItem.showItems();
+          //**********Pane**********//
+          GridPane pane5 = new GridPane();
+          pane5.setAlignment(Pos.CENTER);
+          pane5.setVgap(5);
+          //**********Title**********//
+          Text adminTitle = new Text("Admin Menu");
+          adminTitle.setFont(Font.font(STYLESHEET_CASPIAN, FontWeight.BOLD, 30));
+          adminTitle.setStroke(Color.DARKBLUE);
+          adminTitle.setFill(Color.DARKBLUE);
+          pane5.add(adminTitle,1,0);
+          //**********Item Add Button**********//
+          Button addItem = new Button("Add a New Item");
+          pane5.add(addItem,1,1);
+          addItem.setMaxSize(300,700);
+          addItem.setOnAction(e->{
+          BorderPane borderPane = new BorderPane(); 
+          borderPane.setPadding(new Insets(0, 10, 40, 10)); 
+          GridPane pane = new GridPane (); 
+          pane.setAlignment(Pos.CENTER); 
+          pane.setHgap(11); 
+          pane.setVgap(11); 
+ 
+         Label section = new Label("Sections"); 
+         BorderPane.setAlignment(section, Pos.TOP_CENTER); 
+         section.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 24)); 
+         section.setTextFill(Color.BLUE); 
+         borderPane.setTop(section); 
+         section.setPadding(new Insets(40, 10, 10, 10)); 
+
+         //creat button
+         Stage Sta=new Stage();
+         Button electro= new Button("Electronics"); 
+         pane.add(electro, 1, 0); 
+         electro.setPrefSize(200, 60); 
+         electro.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+         electro.setOnAction(eW->{
+         BorderPane BPane = new BorderPane();
+
+         BPane.setPadding(new Insets(25));
+         //text
+       Text tex0 = new Text (1200,30," Adding New Electronics Item: ");
+       tex0.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex0.setFill(Color.BLUE);
+       BPane.setTop(tex0);
+       //grid
+       GridPane GPane = new GridPane ();
+       GPane.setPadding(new Insets (20));
+       GPane.setHgap(1);
+       GPane.setVgap(3);
+       //Hbox delete line
+       HBox IDLine = new HBox(40);
+       Text tex1 = new Text("item ID: ");
+       tex1.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       IDLine.getChildren().add(tex1);
+       TextField texF1 = new TextField ();
+       IDLine.getChildren().add(texF1);
+       GPane.add(IDLine,0,7);
+       //Name  
+       HBox NameLine = new HBox(20);
+       Text tex2 = new Text("item Name: ");
+       tex2.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       NameLine.getChildren().add(tex2);
+       TextField texF2 = new TextField ();
+       NameLine.getChildren().add(texF2);
+       GPane.add(NameLine,0,8);
+       //Brand
+       HBox BrandLine = new HBox(20);
+       Text tex3 = new Text("item Brand: ");
+       tex3.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       BrandLine.getChildren().add(tex3);
+       TextField texF3 = new TextField ();
+       BrandLine.getChildren().add(texF3);
+       GPane.add(BrandLine,0,9);
+       //Model
+       HBox ModelLine = new HBox(20);
+       Text tex4 = new Text("item Model: ");
+       tex4.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       ModelLine.getChildren().add(tex4);
+       TextField texF4 = new TextField ();
+       ModelLine.getChildren().add(texF4);
+       GPane.add(ModelLine,0,10);
+       //Year
+       HBox YearLine = new HBox(30);
+       Text tex5 = new Text("item Year: ");
+       tex5.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       YearLine.getChildren().add(tex5);
+       TextField texF5 = new TextField ();
+       YearLine.getChildren().add(texF5);
+       GPane.add(YearLine,0,11);
+       //Price
+       HBox PriceLine = new HBox(26);
+       Text tex6 = new Text("item Price: ");
+       tex6.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       PriceLine.getChildren().add(tex6);
+       TextField texF6 = new TextField ();
+       PriceLine.getChildren().add(texF6);
+       GPane.add(PriceLine,0,12);
+       Stage stage1=new Stage();
+       //Hbox add&exit Buttons
+        HBox endBox = new HBox (15);
+       Button add = new Button ("Add");
+       endBox.getChildren().add(add);
+       add.setMaxSize(300, 7);
+       Button exit2 = new Button ("Exit") ;
+       exit2.setOnAction(er->{
+       stage1.close();
+       });
+       endBox.getChildren().add(exit2);
+       exit2.setMaxSize(300,7);
+       GPane.add(endBox, 0, 13);
+       add.setOnAction(er->{
+       if(electronicsItem.searchItems(texF1.getText()) == false){
+       electronicsItem.addItems(texF1.getText() , texF2.getText()
+       , texF3.getText() , texF4.getText() , texF5.getText()
+       ,texF6.getText());
+       Label successAdding = new Label("Adding Done");
+       successAdding.setTextFill(Color.RED);
+       GPane.add(successAdding,0,15);}
+       else{Label errorAdding = new Label("Item already added");
+       errorAdding.setTextFill(Color.RED);
+       GPane.add(errorAdding, 0, 15);}
+      });//end add action
+     
+        BPane.setCenter(GPane);
+        Scene scene = new Scene(BPane , 500 , 500);
+        stage1.setTitle("Adding Screen");
+        stage1.setScene(scene);
+        stage1.show();
+});
+
+Button cloth = new Button("Clothes"); 
+pane.add(cloth, 1, 1); 
+cloth.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+cloth.setPrefSize(200, 60); 
+cloth.setOnAction(eW->{
+BorderPane BPane = new BorderPane();
+          BPane.setPadding(new Insets(25));
+          //text
+       Text tex0 = new Text (1200,30,"Adding New Clothes Item: ");
+       tex0.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex0.setFill(Color.BLUE);
+       BPane.setTop(tex0);
+       //grid
+       GridPane GPane = new GridPane ();
+       GPane.setPadding(new Insets (20));
+       GPane.setHgap(1);
+       GPane.setVgap(3);
+           //ID
+       HBox IDLine = new HBox(40);
+       Text tex7 = new Text("item ID: ");
+       tex7.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       IDLine.getChildren().add(tex7);
+       TextField texF7 = new TextField ();
+       IDLine.getChildren().add(texF7);
+       GPane.add(IDLine,0,7);
+       //Name  
+       HBox NameLine = new HBox(20);
+       Text tex8 = new Text("item Name: ");
+       tex8.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       NameLine.getChildren().add(tex8);
+       TextField texF8 = new TextField ();
+       NameLine.getChildren().add(texF8);
+       GPane.add(NameLine,0,8);
+       //Color
+       HBox ColorLine = new HBox(20);
+       Text tex9 = new Text("item Color: ");
+       tex9.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       ColorLine.getChildren().add(tex9);
+       TextField texF9 = new TextField ();
+       ColorLine.getChildren().add(texF9);
+       GPane.add(ColorLine,0,9);
+       //Department
+       HBox DepartmentLine = new HBox(20);
+       Text tex10 = new Text("item Department: ");
+       tex10.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       DepartmentLine.getChildren().add(tex10);
+       TextField texF10 = new TextField();
+       DepartmentLine.getChildren().add(texF10);
+       GPane.add(DepartmentLine,0,10);
+       //Size
+       HBox SizeLine = new HBox(30);
+       Text tex11 = new Text("item Size: ");
+       tex11.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       SizeLine.getChildren().add(tex11);
+       TextField texF11 = new TextField();
+       SizeLine.getChildren().add(texF11);
+       GPane.add(SizeLine,0,11);
+       //Price
+       HBox PriceLine = new HBox(26);
+       Text tex12 = new Text("item Price: ");
+       tex12.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       PriceLine.getChildren().add(tex12);
+       TextField texF12 = new TextField ();
+       PriceLine.getChildren().add(texF12);
+       GPane.add(PriceLine,0,12);
+              //Hbox add&exit Buttons
+        HBox endBox = new HBox (15);
+        Stage stage2=new Stage();
+       Button add3 = new Button ("Add");
+       endBox.getChildren().add(add3);
+       add3.setMaxSize(300, 7);
+       Button exit2 = new Button ("Exit") ;
+       endBox.getChildren().add(exit2);
+       exit2.setMaxSize(300,7);
+       GPane.add(endBox, 0, 13);
+       add3.setOnAction(eq->{
+           if(clothesItem.searchItems(texF7.getText()) == false){
+       clothesItem.addItems(texF7.getText() , texF8.getText()
+       , texF9.getText() , texF10.getText() , texF11.getText()
+       ,texF12.getText());
+       Label successAdding = new Label("Adding Done");
+       successAdding.setTextFill(Color.RED);
+       GPane.add(successAdding,0,15);}
+       else{Label errorAdding = new Label("Item already added");
+       errorAdding.setTextFill(Color.RED);
+       GPane.add(errorAdding, 0, 15);}
+      });//end add action
+      exit2.setOnAction(eq->{
+        stage2.close(); 
+       });//end exit action
+        BPane.setCenter(GPane);
+        Scene scene = new Scene(BPane , 500 , 500);
+        stage2.setTitle("Adding Screen");
+        stage2.setScene(scene);
+        stage2.show();
+});
+
+Button exit= new Button("Exit"); 
+exit.setOnAction(eW->{
+    Sta.close();
+});
+pane.add(exit, 1, 2); 
+exit.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+exit.setPrefSize(200, 60); 
+borderPane.setCenter(pane); 
+
+Scene scene = new Scene(borderPane,500,500); 
+Sta.setTitle("Shop Sections: ");
+Sta.setScene(scene); 
+Sta.show(); 
+  
+      });
+     //**********Delete Item Button**********//
+     Button deleteItem = new Button("Delete an Item");
+     pane5.add(deleteItem,1,2);
+     deleteItem.setMaxSize(300,700);
+     deleteItem.setOnAction(e->{
+        
+BorderPane borderPane = new BorderPane(); 
+borderPane.setPadding(new Insets(0, 10, 40, 10)); 
+GridPane pane = new GridPane (); 
+pane.setAlignment(Pos.CENTER); 
+pane.setHgap(11); 
+pane.setVgap(11); 
+ 
+Label section = new Label("Sections"); 
+BorderPane.setAlignment(section, Pos.TOP_CENTER); 
+section.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 24)); 
+section.setTextFill(Color.BLUE); 
+borderPane.setTop(section); 
+section.setPadding(new Insets(40, 10, 10, 10)); 
+
+//creat button 
+Button electro= new Button("Electronics");
+Stage stage3=new Stage();
+pane.add(electro, 1, 0); 
+electro.setPrefSize(200, 60); 
+electro.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+electro.setOnAction(et->{
+ 
+         BorderPane BPane = new BorderPane();
+          BPane.setPadding(new Insets(25));
+          //text
+       Text tex0 = new Text (1200,30," Deleting an Electronics Item: ");
+       tex0.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex0.setFill(Color.BLUE);
+       BPane.setTop(tex0);
+       //grid
+       GridPane GPane = new GridPane ();
+       GPane.setPadding(new Insets (20));
+       GPane.setHgap(1);
+       GPane.setVgap(3);
+       //Hbox delete line
+      HBox IDLine = new HBox(40);
+       Text tex1 = new Text("item ID: ");
+       tex1.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       IDLine.getChildren().add(tex1);
+       TextField texF1 = new TextField ();
+       IDLine.getChildren().add(texF1);
+       GPane.add(IDLine,0,7);
+       //Name  
+       HBox NameLine = new HBox(20);
+       Text tex2 = new Text("item Name: ");
+       tex2.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       NameLine.getChildren().add(tex2);
+       TextField texF2 = new TextField ();
+       NameLine.getChildren().add(texF2);
+       GPane.add(NameLine,0,8);
+       //Brand
+       HBox BrandLine = new HBox(20);
+       Text tex3 = new Text("item Brand: ");
+       tex3.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       BrandLine.getChildren().add(tex3);
+       TextField texF3 = new TextField ();
+       BrandLine.getChildren().add(texF3);
+       GPane.add(BrandLine,0,9);
+       //Model
+       HBox ModelLine = new HBox(20);
+       Text tex4 = new Text("item Model: ");
+       tex4.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       ModelLine.getChildren().add(tex4);
+       TextField texF4 = new TextField ();
+       ModelLine.getChildren().add(texF4);
+       GPane.add(ModelLine,0,10);
+       //Year
+       HBox YearLine = new HBox(30);
+       Text tex5 = new Text("item Year: ");
+       tex5.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       YearLine.getChildren().add(tex5);
+       TextField texF5 = new TextField ();
+       YearLine.getChildren().add(texF5);
+       GPane.add(YearLine,0,11);
+       //Price
+       HBox PriceLine = new HBox(26);
+       Text tex6 = new Text("item Price: ");
+       tex6.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       PriceLine.getChildren().add(tex6);
+       TextField texF6 = new TextField ();
+       PriceLine.getChildren().add(texF6);
+       GPane.add(PriceLine,0,12);
+       //Hbox delete&exit Buttons
+        HBox endBox = new HBox (15);
+       Button dlt = new Button ("Delete");
+       endBox.getChildren().add(dlt);
+       dlt.setMaxSize(300, 7);
+       Button exit2 = new Button ("Exit") ;
+       Stage stage4=new Stage();
+       endBox.getChildren().add(exit2);
+       exit2.setMaxSize(300,7);
+       GPane.add(endBox, 0, 13);
+       dlt.setOnAction(ey->{
+           if(electronicsItem.searchItems(texF1.getText()) == false){
+           Label failLb = new Label("We do not have this item");
+           failLb.setTextFill(Color.RED);
+            GPane.add(failLb,0,14);}
+           else {electronicsItem.deleteItems(texF1.getText());
+           Label successLb = new Label("deleting end succesfully");
+           successLb.setTextFill(Color.RED);
+           GPane.add(successLb,0,14);}
+      });//end dlt action
+      exit2.setOnAction(ey->{
+         stage4.close();
+       });//end exit action
+        BPane.setCenter(GPane);
+        Scene scene = new Scene(BPane , 500 , 500);
+        stage4.setTitle("Deleting Screen");
+        stage4.setScene(scene);
+        stage4.show();
+});
+
+Button cloth = new Button("Clothes"); 
+pane.add(cloth, 1, 1); 
+cloth.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+cloth.setPrefSize(200, 60); 
+cloth.setOnAction(et->{
+
+         BorderPane BPane = new BorderPane();
+          BPane.setPadding(new Insets(25));
+          //text
+       Text tex0 = new Text (1200,30," Deleting a Clothes Item: ");
+       tex0.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex0.setFill(Color.BLUE);
+       BPane.setTop(tex0);
+       //grid
+       GridPane GPane = new GridPane ();
+       GPane.setPadding(new Insets (20));
+       GPane.setHgap(1);
+       GPane.setVgap(3);
+        //ID
+       HBox IDLine = new HBox(40);
+       Text tex7 = new Text("item ID: ");
+       tex7.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       IDLine.getChildren().add(tex7);
+       TextField texF7 = new TextField ();
+       IDLine.getChildren().add(texF7);
+       GPane.add(IDLine,0,7);
+       //Name  
+       HBox NameLine = new HBox(20);
+       Text tex8 = new Text("item Name: ");
+       tex8.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       NameLine.getChildren().add(tex8);
+       TextField texF8 = new TextField ();
+       NameLine.getChildren().add(texF8);
+       GPane.add(NameLine,0,8);
+       //Color
+       HBox ColorLine = new HBox(20);
+       Text tex9 = new Text("item Color: ");
+       tex9.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       ColorLine.getChildren().add(tex9);
+       TextField texF9 = new TextField ();
+       ColorLine.getChildren().add(texF9);
+       GPane.add(ColorLine,0,9);
+       //Department
+       HBox DepartmentLine = new HBox(20);
+       Text tex10 = new Text("item Department: ");
+       tex10.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       DepartmentLine.getChildren().add(tex10);
+       TextField texF10 = new TextField();
+       DepartmentLine.getChildren().add(texF10);
+       GPane.add(DepartmentLine,0,10);
+       //Size
+       HBox SizeLine = new HBox(30);
+       Text tex11 = new Text("item Size: ");
+       tex11.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       SizeLine.getChildren().add(tex11);
+       TextField texF11 = new TextField();
+       SizeLine.getChildren().add(texF11);
+       GPane.add(SizeLine,0,11);
+       //Price
+       HBox PriceLine = new HBox(26);
+       Text tex12 = new Text("item Price: ");
+       tex12.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       PriceLine.getChildren().add(tex12);
+       TextField texF12 = new TextField ();
+       PriceLine.getChildren().add(texF12);
+       GPane.add(PriceLine,0,12);
+              //Hbox delete&exit Buttons
+        HBox endBox = new HBox (15);
+       Button dlt = new Button ("Delete");
+       Stage stage5=new Stage();
+       endBox.getChildren().add(dlt);
+       dlt.setMaxSize(300, 7);
+       Button exit2 = new Button ("Exit") ;
+       endBox.getChildren().add(exit2);
+       exit2.setMaxSize(300,7);
+       GPane.add(endBox, 0, 13);
+       dlt.setOnAction(eu->{
+          if(clothesItem.searchItems(texF7.getText()) == false){
+           Label failLb = new Label("We do not have this item");
+           failLb.setTextFill(Color.RED);
+            GPane.add(failLb,0,14);}
+           else {clothesItem.deleteItems(texF7.getText());
+           Label successLb = new Label("deleting end succesfully");
+           successLb.setTextFill(Color.RED);
+           GPane.add(successLb,0,14);}
+           
+      });//end dlt action
+      exit2.setOnAction(eu->{
+         stage5.close();
+       });//end exit action
+        BPane.setCenter(GPane);
+        Scene scene = new Scene(BPane , 500 , 500);
+        stage5.setTitle("Deleting Screen");
+        stage5.setScene(scene);
+        stage5.show();
+});
+
+Button exit= new Button("Exit"); 
+pane.add(exit, 1, 2); 
+exit.setFont(Font.font("Tahoma", FontWeight.BOLD, 16)); 
+exit.setPrefSize(200, 60); 
+borderPane.setCenter(pane); 
+exit.setOnAction(ey->{
+     stage3.close();
+     });
+//creat Scene 
+Scene scene = new Scene(borderPane,500,500); 
+stage3.setTitle("Shop Sections: ");
+stage3.setScene(scene); 
+stage3.show();
+     });
+     //**********Exit Button**********//
+      Stage AdminMenu=new Stage();
+     Button exitBtn = new Button("Exit");
+     pane5.add(exitBtn,1,3);
+     exitBtn.setMaxSize(300,700);
+     exitBtn.setOnAction(e->{
+     AdminMenu.close();
+     });
+     //**********Scene**********//
+     Scene scene6 = new Scene(pane5,500,500);
+    
+     AdminMenu.setTitle("Admin Screen");
+     AdminMenu.setScene(scene6);
+     AdminMenu.show();
+     
+        }
+        else if(userTextField.getText().equals(customer.getUsername())&&
+           pwBox.getText().equals(customer.getPassword())){
+            
+            electronicsItem.showItems();
+            clothesItem.showItems();
+    
+      BorderPane br = new BorderPane();
+      br.setPadding(new Insets(0, 10, 40, 10));
+      GridPane pane2 = new  GridPane ();
+      pane2.setAlignment(Pos.CENTER);
+      pane2.setHgap(11);
+      pane2.setVgap(11);
+       
+      Label ElecItem = new Label("Customer Main Menu");
+        BorderPane.setAlignment(ElecItem, Pos.TOP_CENTER);
+        ElecItem.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 24));
+        ElecItem.setTextFill(Color.BLUE);
+        br.setTop(ElecItem);
+        ElecItem.setPadding(new Insets(40, 10, 10, 10)); 
+       
+       //creat button
+       
+      Button bt1= new Button("Electronics");
+      pane2.add(bt1, 1, 0);
+      bt1.setPrefSize(200, 60);
+      bt1.setFont(Font.font("Tahoma", FontWeight.BOLD, 16));
+      
+      Button bt2 = new Button("Clothes");
+      pane2.add(bt2, 1, 1);
+      bt2.setFont(Font.font("Tahoma", FontWeight.BOLD, 16));
+      bt2.setPrefSize(200, 60);
+      
+    Button bt3= new Button("Exit");
+    pane2.add(bt3, 1, 2);
+    bt3.setFont(Font.font("Tahoma", FontWeight.BOLD, 16));
+    bt3.setPrefSize(200, 60);
+    br.setCenter(pane2);
+    
+    
+    Group root=new Group();
+    
+    root.getChildren().add(br);
+    //creat Scene
+    Scene scene = new Scene(root,300,350);
+    Stage sa=new Stage();
+    sa.setTitle("Customer Menu Screen");
+    
+     sa.setScene(scene);
+     
+      sa.show();  
+     
+  bt1.setOnAction((ActionEvent e) ->{
+    BorderPane BPane = new BorderPane ();
+        BPane.setPadding(new Insets (25));
+       //text
+       Text tex = new Text (20,30," Electric Item Purchase Form");
+       tex.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex.setFill(Color.BLUE);
+       BPane.setTop(tex);
+       //grid
+       GridPane pane = new GridPane ();
+       pane.setPadding(new Insets (5,4,7,87));
+       pane.setHgap(6);
+       pane.setVgap(6);
+       //ID
+       Text tex2 = new Text("itemID*: ");
+       tex2.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex2,0,1);
+       TextField texF1 = new TextField ();
+       pane.add(texF1,1,1);
+       
+       //name
+       Text tex3 = new Text("itemName*: ");
+       tex3.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex3,0,2);
+       TextField texF2 = new TextField ();
+       pane.add(texF2,1,2);
+       
+       //Brand
+       Text tex4 = new Text("Brand: ");
+       tex4.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex4,0,3);
+       TextField texF3 = new TextField ();
+       pane.add(texF3,1,3);
+       
+       //model
+       Text tex5 = new Text("Model: ");
+       tex5.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex5,0,4);
+       TextField texF4 = new TextField ();
+       pane.add(texF4,1,4);
+       
+       //Quantity
+       Text tex6 = new Text("Quantity: ");
+       tex6.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex6,0,5);
+       TextField texF5 = new TextField ("1");
+       pane.add(texF5,1,5);
+       
+       //buttons
+       HBox hbox = new HBox (30);
+       Button buy1 = new Button ("Buy");
+        Stage  Stage1= new Stage();
+       hbox.getChildren().add(buy1);
+       buy1.setMaxSize(73, 2);
+       Button Exit1 = new Button ("Exit") ;
+       hbox.getChildren().add(Exit1);
+       Exit1.setMaxSize(47,300);
+       pane.add(hbox, 1, 6);
+       pane.setHalignment(Exit1,HPos.CENTER);
+       BPane.setCenter(pane);
+       Exit1.setOnAction(ee->{
+         Stage1.close();
+       });
+       buy1.setOnAction(ee ->{
+           Label failLb = new Label("");
+           failLb.setTextFill(Color.RED);
+           BPane.setBottom(failLb);
+           if(texF1.getText().isEmpty() || texF2.getText().isEmpty()){
+           failLb.setText("Please fill the required* fields!"); }
+           else{
+              if(electronicsItem.searchItems(texF1.getText()) == false){
+              failLb.setText("Sorry we do not have this item"
+               + " \nplease try again");}
+              else{
+              electronicsItem.setItemID(Integer.parseInt(texF1.getText()));
+              electronicsItem.findPrice();
+              failLb.setText(electronicsItem.orderSummery(
+              Integer.parseInt(texF5.getText())));}
+           }
+           
+       });
+       
+       //stage
+       Scene scene1 = new Scene (BPane,500,300);
+       Stage1.setTitle("Buying Electric Screen");
+       Stage1.setScene(scene1);
+       Stage1.show();
+       });
+     
+       
+ 
+   bt2.setOnAction((ActionEvent e) ->{
+     BorderPane BPane = new BorderPane ();
+        BPane.setPadding(new Insets (25));
+       //text
+       Text tex = new Text (20,30," Clothes Item Purchase Form");
+       tex.setFont(Font.font("Courier",FontWeight.BOLD,FontPosture.ITALIC,30));
+       tex.setFill(Color.BLUE);
+       BPane.setTop(tex);
+       //grid
+       GridPane pane = new GridPane ();
+       pane.setPadding(new Insets (5,4,7,87));
+       pane.setHgap(6);
+       pane.setVgap(6);
+       //ID
+       Text tex2 = new Text("itemID*: ");
+       tex2.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex2,0,1);
+       TextField texF1 = new TextField ();
+       pane.add(texF1,1,1);
+       
+       //name
+       Text tex3 = new Text("itemName*: ");
+       tex3.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex3,0,2);
+       TextField texF2 = new TextField ();
+       pane.add(texF2,1,2);
+       
+       //Brand
+       Text tex4 = new Text("Color: ");
+       tex4.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex4,0,3);
+       TextField texF3 = new TextField ();
+       pane.add(texF3,1,3);
+       
+       //model
+       Text tex5 = new Text("Size: ");
+       tex5.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex5,0,4);
+       TextField texF4 = new TextField ();
+       pane.add(texF4,1,4);
+       
+       //Quantity
+       Text tex6 = new Text("Quantity: ");
+       tex6.setFont(Font.font ("Courier",FontWeight.BOLD,FontPosture.ITALIC,12));
+       pane.add(tex6,0,5);
+       TextField texF5 = new TextField ("1");
+       pane.add(texF5,1,5);
+       
+       //buttons
+       HBox hbox = new HBox (30);
+       Button buy1 = new Button ("Buy");
+       Stage  Stage2= new Stage();
+       hbox.getChildren().add(buy1);
+       buy1.setMaxSize(73, 2);
+       Button Exit1 = new Button ("Exit") ;
+       hbox.getChildren().add(Exit1);
+       Exit1.setMaxSize(47,300);
+       pane.add(hbox, 1, 6);
+       pane.setHalignment(Exit1,HPos.CENTER);
+       BPane.setCenter(pane);
+       Exit1.setOnAction(ee->{
+        Stage2.close();
+       });
+       buy1.setOnAction(ee ->{
+           Label failLb = new Label("");
+           failLb.setTextFill(Color.RED);
+           BPane.setBottom(failLb);
+           if(texF1.getText().isEmpty() || texF2.getText().isEmpty()){
+           failLb.setText("Please fill the required* fields!"); }
+           else{
+              if(clothesItem.searchItems(texF1.getText()) == false){
+              failLb.setText("Sorry we do not have this item"
+               + " \nplease try again");}
+              else{
+              clothesItem.setItemID(Integer.parseInt(texF1.getText()));
+              clothesItem.findPrice();
+              failLb.setText(clothesItem.orderSummery(
+              Integer.parseInt(texF5.getText())));}
+           }
+       });
+       
+       //stage
+       Scene scene2 = new Scene (BPane,500,300);
+       Stage2.setTitle("Buying Clothes Screen");
+       Stage2.setScene(scene2);
+       Stage2.show(); 
+  });
+    bt3.setOnAction((ActionEvent e) ->{
+     sa.close();
+  });  
+        }else{Label wrongFields = new Label("incorrect username/password "
+            + ", try again");
+        wrongFields.setTextFill(Color.RED);
+        Bpane.setBottom(wrongFields);  }
+
+        });
+        
+       
+
+     Scene scene = new Scene(Bpane, 650, 300);
+     primaryStage.setTitle("E-Store Managment System (Login Screen)");
+        primaryStage.setScene(scene);
+        primaryStage.show(); 
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+//**********Item**********//
+public abstract class Item {
+    //properties of Item class
+    private int itemID;
+    private String itemName;
+    private double price;
+    //**********Constructor**********//
+ protected Item(){}
+ protected Item(int itemID , String ItemName , double price){
+     this.itemID = itemID;
+     this.itemName = ItemName;
+     this.price = price;}
+    //**********get methods**********//
+ public int getItemID(){return itemID;}
+ 
+ public String getItemName(){return itemName;}
+ 
+ public double getPrice(){return price;}
+    //**********set methods**********//
+ public void setItemID(int itemID){this.itemID = itemID;}
+ 
+ public void setItemName(String itemName){this.itemName = itemName;}
+
+ public void setPrice(double price){this.price = price;}
+
+ public abstract String orderSummery(int quantity); 
+ 
+ public abstract void showItems();
+ 
+ public abstract boolean searchItems(String itemID);
+       
+ public abstract void addItems(String s1,String s2,String s3,
+         String s4,String s5,String s6);
+       
+ public abstract void deleteItems(String itemID);
+        
+ public abstract void findPrice();
+
+}//end of Item class
+
+//**********User**********//
+class User {
+    //properties of User class
+    private long userID;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String password;
+    private String email;
+    private String userType;
+    //**********Constructors**********//
+ User(){}
+ User(long userID, String firstName, String lastName,
+      String username, String password, String email,
+      String userType){
+     this.userID = userID;
+     this.firstName = firstName;
+     this.lastName = lastName;
+     this.username = username;
+     this.password = password;
+     this.email = email;
+     this.userType = userType;}
+    //**********set methods**********// 
+ public void setUserID(long userID) {this.userID = userID;}
+
+ public void setFirstName(String firstName) {this.firstName = firstName;} 
+  
+ public void setLastName(String lastName) {this.lastName = lastName;}
+  
+ public void setUsername(String username) {this.username = username;}
+  
+ public void setPassword(String password) {this.password = password;}
+  
+ public void setEmail(String email) {this.email = email;}
+  
+ public void setUserType(String userType) {this.userType = userType;}  
+    //**********get methods**********//
+ public long getUserID() {return userID;}
+  
+ public String getFirstName() {return firstName;}
+
+ public String getLastName() {return lastName;}
+
+ public String getUsername() {return username;}
+
+ public String getPassword() {return password;}
+
+ public String getEmail() {return email;}
+
+ public String getUserType() {return userType;}
+}//end of User class
+
+//**********Electronics**********//
+class Electronics extends Item {
+    //properties of Electronics class
+    private String brand ;
+    private String model ;
+    private int year ;
+    //**********Constructors**********//
+ public Electronics (){}
+ public Electronics (String brand , String model , int year){
+        this.brand = brand ;
+        this.model = model ;
+        this.year = year ;}
+    //**********get methods**********//
+ public String getBrand (){return this.brand;}
+ 
+ public String getModel (){return this.model;}   
+ 
+ public int getYear (){return this.year;}    
+    //**********set methods**********//       
+ public void setBrand (String newBrand){this.brand= newBrand ;}   
+    
+ public void setModel (String newModel){this.model= newModel ;}
+ 
+ public void setYear (int newYear){this.year= newYear;}
+    
+ @Override
+ public String orderSummery(int quantity) {
+     return "Purchased item: "+ super.getItemID()
+             +",QTY="+quantity+
+             ",Total Price="+(quantity*super.getPrice()); }
+@Override
+ public void showItems(){
+     File file;
+     Scanner input;
+     ArrayList<String> itemsInfo = new ArrayList<String>();
+    try{
+    file= new File("src/Electronics.txt");
+    input = new Scanner(file);
+    System.out.println("Items from electronics.txt: ");
+    while (input.hasNext()){
+    String item = input.nextLine();
+    itemsInfo.add(item);}
+     input.close();
+    for(int i = 0; i<itemsInfo.size();i++){
+    System.out.println(itemsInfo.get(i)); }
+    System.out.println("----------------------------------");}
+    catch (Exception ex) {
+    System.out.println(ex);}
+}
+ @Override
+ public boolean searchItems(String itemID){
+     File file;
+     String item;
+     boolean searchResult = false;
+     try{
+      file = new File("src/Electronics.txt");
+      Scanner input = new Scanner(file);
+      input.useDelimiter(","); 
+      while (input.hasNext()){
+      item = input.next();
+      if(item.equals(itemID)){
+      searchResult = true;
+      break;} 
+      input.nextLine();}
+      input.close();}
+      catch (Exception ex) {
+      System.out.println(ex);}
+      return searchResult;
+}
+@Override
+ public void addItems(String s1,String s2,String s3,
+      String s4,String s5,String s6){
+     FileWriter  file;
+     PrintWriter output;
+    try{
+    file = new FileWriter ("src/Electronics.txt",true);
+    output = new PrintWriter(file);
+    output.println();
+    output.print(s1+","+s2+","+s3+","+s4+","
+       +s5+","+s6+",");
+    output.close();}
+    catch (Exception ex) {
+    System.out.println(ex);}   
+ }
+ @Override      
+ public void deleteItems(String itemID){
+    File fileElec;
+    Scanner input;
+    ArrayList<String> items = new ArrayList<String>();
+     try{
+    fileElec = new File ("src/Electronics.txt");
+    input = new Scanner(fileElec);
+    FileWriter fileAddElec = new FileWriter("src/Electronics.txt",true);
+    PrintWriter output = new PrintWriter(fileAddElec);
+    while (input.hasNext()){
+    String item = input.nextLine();
+    items.add(item);}
+    input.close();
+    for(int i = 0; i<items.size();i++){
+    if(items.get(i).matches(itemID+".*")){
+    items.remove(i);
+    break;}}
+    new FileWriter("src/Electronics.txt", false).close();
+    for(int i = 0; i<items.size();i++){
+    output.println(items.get(i));}
+    output.close(); }
+    catch (Exception ex){
+    System.out.println(ex);}
+ }
+ @Override       
+ public void findPrice(){
+  File file;
+  String itemId,itemName,brand,model,year,price = null;
+  Scanner input;
+  try {
+  file = new File("src/Electronics.txt");
+  input = new Scanner(file);
+  input.useDelimiter(",");
+  while (input.hasNext()) {
+  itemId = input.next();
+  if(itemId.equals(String.valueOf(super.getItemID()))){
+  itemName = input.next();
+  brand = input.next();
+  model = input.next();
+  year = input.next();
+  price = input.next();
+  break;} 
+  input.nextLine();}
+  super.setPrice(Double.parseDouble(price));
+  input.close();}
+  catch (Exception ex) {
+  System.out.println(ex); }
+  }
+ }//end of Electronics class
+
+//**********Clothes**********//
+class Clothes extends Item {
+    //properties of Clothes class
+    private String color ;
+    private String department ;
+    private String size ;
+    //**********Constructors**********//
+ public Clothes (){} 
+ public Clothes (String color , String department , String size ){
+        this.color = color ;
+        this.department = department ;
+        this.size = size ;}
+    //**********get methods**********// 
+ public String getColor (){return this.color;}
+ 
+ public String getDepartment (){return this.department;}
+ 
+ public String getSize (){return this.size;}
+    //**********set methods**********//
+ public void setColor (String NewColor ){this.color=NewColor;}
+    
+ public void setDepartment (String newDepartment){this.department
+         =newDepartment;}
+    
+ public void setSize (String newSize){this.size=newSize;}
+    //**********summery methods**********//
+ @Override
+ public String orderSummery(int quantity) {
+  return "Purchased item: "+ super.getItemID()
+          +",QTY="+quantity
+          +",Total Price="+(quantity*super.getPrice());
+ }
+ @Override
+ public void showItems(){
+     File file;
+     Scanner input;
+     ArrayList<String> itemsInfo = new ArrayList<String>();
+    try{
+    file= new File("src/Clothes.txt");
+    input = new Scanner(file);
+    System.out.println("Items from clothes.txt: ");
+    while (input.hasNext()){
+    String item = input.nextLine();
+    itemsInfo.add(item);}
+     input.close();
+    for(int i = 0; i<itemsInfo.size();i++){
+    System.out.println(itemsInfo.get(i)); }
+    System.out.println("----------------------------------");}
+    catch (Exception ex) {
+    System.out.println(ex);}
+}
+ @Override
+ public boolean searchItems(String itemID){
+     File file;
+     String item;
+     boolean searchResult = false;
+     try{
+      file = new File("src/Clothes.txt");
+      Scanner input = new Scanner(file);
+      input.useDelimiter(","); 
+      while (input.hasNext()){
+      item = input.next();
+      if(item.equals(itemID)){
+      searchResult = true;
+      break;} 
+      input.nextLine();}
+      input.close();}
+      catch (Exception ex) {
+      System.out.println(ex);}
+      return searchResult;
+}
+@Override
+ public void addItems(String s1,String s2,String s3,
+      String s4,String s5,String s6){
+    try{
+    FileWriter  file = new FileWriter ("src/Clothes.txt",true);
+    PrintWriter output = new PrintWriter(file);
+    output.println();
+    output.print(s1+","+s2+","+s3+","+s4+","
+       +s5+","+s6+",");
+    output.close();}
+    catch (Exception ex) {
+    System.out.println(ex);}   
+ }
+ @Override      
+ public void deleteItems(String itemID){
+    File fileCloth;
+    Scanner input;
+    ArrayList<String> items = new ArrayList<String>();
+     try{
+    fileCloth = new File ("src/Clothes.txt");
+    input = new Scanner(fileCloth);
+    FileWriter fileAddCloth = new FileWriter("src/Clothes.txt",true);
+    PrintWriter output = new PrintWriter(fileAddCloth);
+    while (input.hasNext()){
+    String item = input.nextLine();
+    items.add(item);}
+    input.close();
+    for(int i = 0; i<items.size();i++){
+    if(items.get(i).matches(itemID+".*")){
+    items.remove(i);
+    break;}}
+    new FileWriter("src/Clothes.txt", false).close();
+    for(int i = 0; i<items.size();i++){
+    output.println(items.get(i));}
+    output.close(); }
+    catch (Exception ex){
+    System.out.println(ex);}
+ }
+ @Override       
+ public void findPrice(){
+  File file;
+  String itemId,itemName,color,department,size,price = null;
+  try {
+  file = new File("src/Clothes.txt");
+  Scanner input = new Scanner(file);
+  input.useDelimiter(",");
+  while (input.hasNext()) {
+  itemId = input.next();
+  if(itemId.equals(String.valueOf(super.getItemID()))){
+  itemName = input.next();
+  color = input.next();
+  department = input.next();
+  size = input.next();
+  price = input.next();
+  break;} 
+  input.nextLine();}
+  super.setPrice(Double.parseDouble(price));
+  input.close();}
+  catch (Exception ex) {
+  System.out.println(ex); }
+  }
+}//end of Clothes class
+
+
+
+}//end of big class LogInFx
